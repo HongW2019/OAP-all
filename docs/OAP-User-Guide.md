@@ -417,10 +417,10 @@ spark.sql.oap.parquet.data.cache.enable        true      # for Parquet file form
 4. DRAM(`offheap`)/`guava` as `index` cache media and back end, DCPMM(`tmp`)/`vmem` as `data` cache media and back end. 
 
 ```
-spark.sql.oap.index.data.cache.separation.enable        true
-spark.oap.cache.strategy                                mix
-spark.sql.oap.fiberCache.memory.manager                 mix 
-spark.sql.oap.mix.data.cache.backend                    vmem
+spark.sql.oap.index.data.cache.separation.enable         true
+spark.oap.cache.strategy                                 mix
+spark.sql.oap.fiberCache.memory.manager                  mix 
+spark.sql.oap.mix.data.cache.backend                     vmem
 
 spark.executor.instances                                 6               # 2x number of your worker nodes
 spark.yarn.numa.enabled                                  true            # enable numa

@@ -312,7 +312,6 @@ For ORC data format, add these conf options:
 ```
 spark.sql.orc.copyBatchToSpark                   true
 spark.sql.oap.orc.data.cache.enable              true
-spark.sql.oap.orc.enable                         true
 spark.sql.oap.fiberCache.memory.manager          pm
 spark.oap.cache.strategy                         guava
 ```

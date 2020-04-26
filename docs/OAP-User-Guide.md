@@ -231,7 +231,6 @@ The following are required to configure OAP to use DCPMM cache.
    ./configure
    make
    make install
-   
    ```
 - Install [Vmemcache](https://github.com/pmem/vmemcache) library on every cluster worker node if using vmemcache strategy. Follow the build/install steps from vmemcache website and make sure libvmemcache.so is in `/lib64` directory in each worker node. 
 
@@ -303,23 +302,19 @@ Optimize your environment by choosing a DCPMM caching strategy (guava, non-evict
 
 Guava cache is based on the memkind library and built on top of jemalloc. It provides additional memory characteristics. To use it in your workload, follow [DCPMM Cache](#use-dcpmm-cache) to set up DCPMM hardware and memkind library correctly. Then follow bellow configurations.
 
-For Parquet data format, use these conf options:
+For Parquet data format, add these conf options:
 ```
 spark.sql.oap.parquet.data.cache.enable           true
 spark.sql.oap.fiberCache.memory.manager           pm
 spark.oap.cache.strategy                          guava
-spark.sql.oap.fiberCache.persistent.memory.initial.size    *g
-spark.sql.extensions                              org.apache.spark.sql.OapExtensions
 ```
-For Orc data format, use these conf options:
+For ORC data format, add these conf options:
 ```
 spark.sql.orc.copyBatchToSpark                   true
 spark.sql.oap.orc.data.cache.enable              true
 spark.sql.oap.orc.enable                         true
 spark.sql.oap.fiberCache.memory.manager          pm
 spark.oap.cache.strategy                         guava
-spark.sql.oap.fiberCache.persistent.memory.initial.size      *g
-spark.sql.extensions                             org.apache.spark.sql.OapExtensions
 ```
 
 ##### Non-evictable cache
@@ -328,18 +323,16 @@ The non-evictable cache strategy is also supported in OAP based on the memkind l
 
 The prerequisites to set up [DCPMM hardware](#use-dcpmm-cache) and memkind library apply.
 
-For Parquet data format, use these conf options:
+For Parquet data format, add these conf options:
 ```
 spark.sql.oap.parquet.data.cache.enable                  true 
 spark.oap.cache.strategy                                 noevict 
-spark.sql.oap.fiberCache.persistent.memory.initial.size  256g 
 ```
-For Orc data format, use these conf options:
+For Orc data format, add these conf options:
 ```
 spark.sql.orc.copyBatchToSpark                           true 
 spark.sql.oap.orc.data.cache.enable                      true 
 spark.oap.cache.strategy                                 noevict 
-spark.sql.oap.fiberCache.persistent.memory.initial.size  256g 
 ```
 
 ##### vmemcache Cache
@@ -348,24 +341,30 @@ The vmemcache cache strategy is based on libvmemcache (buffer based LRU cache), 
 
 Follow prerequisites to configure [DCPMM hardware](#use-dcpmm-cache) 
 
-For Parquet data format, use these conf options:
+For Parquet data format, add these conf options:
 
 ```
  
 spark.sql.oap.parquet.data.cache.enable                    true 
 spark.oap.cache.strategy                                   vmem 
-spark.sql.oap.fiberCache.persistent.memory.initial.size    256g 
 spark.sql.oap.cache.guardian.memory.size                   10g      # according to your cluster
+
+spark.yarn.numa.enabled             true
+spark.memory.offHeap.enabled        false
+spark.sql.oap.fiberCache.persistent.memory.initial.size   263g
 ```
 
-For Orc data format, use these conf options:
+For Orc data format, add these conf options:
 
 ```
 spark.sql.orc.copyBatchToSpark                             true 
 spark.sql.oap.orc.data.cache.enable                        true 
 spark.oap.cache.strategy                                   vmem 
-spark.sql.oap.fiberCache.persistent.memory.initial.size    256g
 spark.sql.oap.cache.guardian.memory.size                   10g      # according to your cluster   
+
+spark.yarn.numa.enabled             true
+spark.memory.offHeap.enabled        false
+spark.sql.oap.fiberCache.persistent.memory.initial.size   263g
 ```
 
 Note: If "PendingFiber Size" (on spark web-UI OAP page) is large, or some tasks fail with "cache guardian use too much memory" error, set `spark.sql.oap.cache.guardian.memory.size ` to a larger number as the default size is 10GB. The user could also increase `spark.sql.oap.cache.guardian.free.thread.nums` or decrease `spark.sql.oap.cache.dispose.timeout.ms` to free memory more quickly.

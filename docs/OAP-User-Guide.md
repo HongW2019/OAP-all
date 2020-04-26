@@ -438,13 +438,13 @@ spark.sql.oap.parquet.data.cache.enable        true      # for Parquet file form
 
 ##### Binary cache 
 
-A binary cache is available for both Parquet and ORC file format to improve cache space utilization compared to ColumnVector cache. When enabling binary cache, you should add following configs to `spark-defaults.conf`.
+A binary cache is available for both Parquet and ORC file format to improve cache space utilization compared to ColumnVector cache. When enabling binary cache, you should change following configs in `spark-defaults.conf`.
 
 ```
-spark.sql.oap.parquet.binary.cache.enabled                true      # for parquet fileformat
-spark.sql.oap.parquet.data.cache.enable                   false     # for ColumnVector, default is false
-spark.sql.oap.orc.binary.cache.enable                     true      # for orc fileformat
-spark.sql.oap.orc.data.cache.enable                       false     # for ColumnVector, default is false
+spark.sql.oap.parquet.binary.cache.enabled      true      # for parquet file format, enable binary cache
+spark.sql.oap.parquet.data.cache.enable         false     # for parquet file format, disable ColumnVector cache
+spark.sql.oap.orc.binary.cache.enable           true      # for ORC file format, enable binary cache
+spark.sql.oap.orc.data.cache.enable             false     # for ORC file format, disable ColumnVector cache
 ```
 The rest configurations can follow above part according to different cache media and strategies.
 #### Verify DCPMM cache functionality

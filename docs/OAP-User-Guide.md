@@ -395,24 +395,23 @@ The rest configurations can refer to the configurations of [DCPMM Cache](#use-dc
 3. DRAM(`offheap`)/`guava` as `index` cache media and back end, DCPMM(`pm`)/`guava` as `data` cache media and back end. 
 
 ```
-spark.sql.oap.index.data.cache.separation.enable        true
-spark.oap.cache.strategy                                mix
-spark.sql.oap.fiberCache.memory.manager                 mix 
+spark.sql.oap.index.data.cache.separation.enable         true
+spark.oap.cache.strategy                                 mix
+spark.sql.oap.fiberCache.memory.manager                  mix 
 
-spark.sql.oap.fiberCache.offheap.memory.size   50g      # equal to the size of executor.memoryOverhead
-spark.executor.memoryOverhead                  50g      # according to the resource of cluster
+spark.executor.instances                                 6               # 2x number of your worker nodes
+spark.yarn.numa.enabled                                  true            # enable numa
+spark.executorEnv.MEMKIND_ARENA_NUM_PER_KIND             1
+spark.memory.offHeap.enabled                             false
+spark.sql.oap.fiberCache.persistent.memory.initial.size  256g            # DCPMM capacity per executor
+spark.sql.oap.fiberCache.persistent.memory.reserved.size 50g             # Reserved space per executor
 
-spark.executor.instances                                   6               # 2x number of your worker nodes
-spark.yarn.numa.enabled                                    true            # enable numa
-spark.executorEnv.MEMKIND_ARENA_NUM_PER_KIND               1
-spark.memory.offHeap.enabled                               false
-spark.sql.oap.fiberCache.persistent.memory.initial.size    256g            # DCPMM capacity per executor
-spark.sql.oap.fiberCache.persistent.memory.reserved.size   50g             # Reserved space per executor
+spark.sql.oap.fiberCache.offheap.memory.size   50g       # equal to the size of executor.memoryOverhead
+spark.executor.memoryOverhead                  50g       # according to the resource of cluster
 
-
-spark.sql.orc.copyBatchToSpark                 true     # for ORC file format
-spark.sql.oap.orc.data.cache.enable            true     # for ORC file format
-spark.sql.oap.parquet.data.cache.enable        true     # for Parquet file format
+spark.sql.orc.copyBatchToSpark                 true      # for ORC file format
+spark.sql.oap.orc.data.cache.enable            true      # for ORC file format
+spark.sql.oap.parquet.data.cache.enable        true      # for Parquet file format
 ```
 
 4. DRAM(`offheap`)/`guava` as `index` cache media and back end, DCPMM(`tmp`)/`vmem` as `data` cache media and back end. 
@@ -423,18 +422,18 @@ spark.oap.cache.strategy                                mix
 spark.sql.oap.fiberCache.memory.manager                 mix 
 spark.sql.oap.mix.data.cache.backend                    vmem
 
-spark.sql.oap.fiberCache.offheap.memory.size   50g      # equal to the size of executor.memoryOverhead
-spark.executor.memoryOverhead                  50g      # according to the resource of cluster
+spark.executor.instances                                 6               # 2x number of your worker nodes
+spark.yarn.numa.enabled                                  true            # enable numa
+spark.memory.offHeap.enabled                             false
+spark.sql.oap.fiberCache.persistent.memory.initial.size  256g            # DCPMM capacity per executor
+spark.sql.oap.cache.guardian.memory.size                 10g             # according to your cluster
 
-spark.executor.instances                                   6               # 2x number of your worker nodes
-spark.yarn.numa.enabled                                    true            # enable numa
-spark.memory.offHeap.enabled                               false
-spark.sql.oap.fiberCache.persistent.memory.initial.size    256g            # DCPMM capacity per executor
-spark.sql.oap.cache.guardian.memory.size                   10g             # according to your cluster
+spark.sql.oap.fiberCache.offheap.memory.size   50g       # equal to the size of executor.memoryOverhead
+spark.executor.memoryOverhead                  50g       # according to the resource of cluster
 
-spark.sql.orc.copyBatchToSpark                 true     # for ORC file format
-spark.sql.oap.orc.data.cache.enable            true     # for ORC file format
-spark.sql.oap.parquet.data.cache.enable        true     # for Parquet file format
+spark.sql.orc.copyBatchToSpark                 true      # for ORC file format
+spark.sql.oap.orc.data.cache.enable            true      # for ORC file format
+spark.sql.oap.parquet.data.cache.enable        true      # for Parquet file format
 ```
 
 ##### Binary cache 

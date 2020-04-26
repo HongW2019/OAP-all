@@ -351,7 +351,8 @@ spark.sql.oap.cache.guardian.memory.size                   10g      # according 
 
 spark.yarn.numa.enabled             true
 spark.memory.offHeap.enabled        false
-spark.sql.oap.fiberCache.persistent.memory.initial.size   263g
+spark.executor.instances            6                               # 2x number of your worker nodes
+spark.sql.oap.fiberCache.persistent.memory.initial.size    256g
 ```
 
 For Orc data format, add these conf options:
@@ -364,7 +365,8 @@ spark.sql.oap.cache.guardian.memory.size                   10g      # according 
 
 spark.yarn.numa.enabled             true
 spark.memory.offHeap.enabled        false
-spark.sql.oap.fiberCache.persistent.memory.initial.size   263g
+spark.executor.instances            6                               # 2x number of your worker nodes
+spark.sql.oap.fiberCache.persistent.memory.initial.size    256g
 ```
 
 Note: If "PendingFiber Size" (on spark web-UI OAP page) is large, or some tasks fail with "cache guardian use too much memory" error, set `spark.sql.oap.cache.guardian.memory.size ` to a larger number as the default size is 10GB. The user could also increase `spark.sql.oap.cache.guardian.free.thread.nums` or decrease `spark.sql.oap.cache.dispose.timeout.ms` to free memory more quickly.

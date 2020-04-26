@@ -219,8 +219,8 @@ The following are required to configure OAP to use DCPMM cache.
 
    In this case file systems are generated for 2 numa nodes, which can be checked by "numactl --hardware". For a different number of numa nodes, a corresponding number of namespaces should be created to assure correct file system paths mapping to numa nodes.
 
-- [Memkind](http://memkind.github.io/memkind/) library installed on every cluster worker node. Compile Memkind based on your system or directly place our pre-built binary of [libmemkind.so.0](https://github.com/Intel-bigdata/OAP/releases/download/v0.6.1-spark-2.4.4/libmemkind.so.0) for x86 64bit CentOS Linux in the `/lib64/`directory of each worker node in cluster.This pre-built binary version is based on [Memkind_v1.10.0-oap-0.7](https://github.com/Intel-bigdata/memkind/tree/v1.10.0-oap-0.7), which is forked from Memkind since the commit id 526b59887e. The Memkind library depends on `libnuma` at the runtime, so it must already exist in the worker node system. 
-
+- [Memkind](http://memkind.github.io/memkind/) library installed on every cluster worker node. Compile Memkind based on your system or directly place our pre-built binary of [libmemkind.so.0](https://github.com/Intel-bigdata/OAP/releases/download/v0.6.1-spark-2.4.4/libmemkind.so.0) for x86 64bit CentOS Linux in the `/lib64/`directory of each worker node in cluster.This pre-built binary version is based on [Memkind_v1.10.0-oap-0.7](https://github.com/Intel-bigdata/memkind/tree/v1.10.0-oap-0.7), which is forked from Memkind until the commit id 526b59887e. 
+   The Memkind library depends on `libnuma` at the runtime, so it must already exist in the worker node system. 
    Build the latest memkind lib from source:
 
    ```
@@ -232,16 +232,6 @@ The following are required to configure OAP to use DCPMM cache.
    make install
    
    ```
-  If you choose to complile from verison [Memkind_v1.10.0-oap-0.7](https://github.com/Intel-bigdata/memkind/tree/v1.10.0-oap-0.7), you can run
-  ```
-   git clone https://github.com/memkind/memkind  
-   cd memkind
-   git reset --hard 526b59887e
-   ./autogen.sh
-   ./configure
-   make
-   make install
-  ```
 - Install [Vmemcache](https://github.com/pmem/vmemcache) library on every cluster worker node if using vmemcache strategy. Follow the build/install steps from vmemcache website and make sure libvmemcache.so is in `/lib64` directory in each worker node. 
 
    Build vmemcache lib from source (for RPM-based Linux):
